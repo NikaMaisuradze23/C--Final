@@ -1,0 +1,53 @@
+Configure PAgP
+S1(config)# interface range f0/21 – 22
+S1(config-if-range)# shutdown
+S1(config-if-range)# channel-group 1 mode desirable
+S1(config-if-range)# no shutdown
+S1(config-if-range)# exit
+S1(config)# interface port-channel 1
+S1(config-if)# switchport mode trunk
+S1# show etherchannel summary
+
+Configure LACP
+S1(config)# interface range g0/1 - 2
+S1(config-if-range)# shutdown
+S1(config-if-range)# channel-group 2 mode active
+S1(config-if-range)# no shutdown
+S1(config-if-range)# exit
+S1(config)# interface port-channel 2
+S1(config-if)# switchport mode trunk
+S1# show etherchannel summary
+
+Configure a Redundant EtherChannel Link
+S2(config)# interface range f0/23 - 24
+S2(config-if-range)# shutdown
+S2(config-if-range)# channel-group 3 mode passive
+S2(config-if-range)# no shutdown
+S2(config-if-range)# interface port-channel 3
+S2(config-if)# switchport mode trunk
+
+თუ პასივს ვუწეთ პოერზეპზე რომელ სვიჩსაც უკავშირადება იმას ვუწერთ S1(config-if-range)# channel-group 3 mode active
+
+S1# show spanning-tree active
+
+პრიორიტეტის მინიჭება: 
+S1(config)# spanning-tree vlan 1 root primary
+ან
+S1(config)# spanning-tree vlan 1 priority 24576
+
+არ შეიძლება რომ ორივე მხარეს გაწერილი იყოს
+channel-group 3 mode auto ან passive
+
+PAgP:
+desirable => desirable
+desirable => auto
+თუ ორივე მხარესაა გაწერილი channel-group 3 mode auto, არ იმუშავებს
+
+LACP:
+active => active
+active => passive
+თუ ორივე მხარესაა გაწერილი channel-group 3 mode passive, არ იმუშავებს
+
+
+S1# show interfaces port-channel 1
+

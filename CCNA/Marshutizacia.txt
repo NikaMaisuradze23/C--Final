@@ -1,0 +1,13 @@
+Default Route
+Router(config)#ip route 0.0.0.0 0.0.0.0 gig0/0 - ISP სადაც ჰყავს ის პორტი
+
+OSPF
+D1(config)# router ospf 10
+D1(config-router)# network 192.168.10.0 0.0.0.255 area 0 - ვუთითებთ ვილანის ქსელის აიპის 
+D1(config-router)# network 192.168.20.0 0.0.0.255 area 0
+D1(config-router)# network 10.10.10.0 0.0.0.3 area 0 - ვუთითებთ როუტერსა და სვიჩს შორის ქსელის აიპის
+
+EIGRP
+Router(config)#router eigrp 20
+Router(config-router)#network 10.0.0.0 0.0.0.255
+Router(config-router)#network 192.168.1.0 0.0.255

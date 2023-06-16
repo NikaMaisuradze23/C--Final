@@ -1,0 +1,28 @@
+VTP Server
+
+Switch1# conf t
+Switch1(config)# vtp mode server -სვიჩის ვტპ სერვერად გადაკეთება
+Switch1# show vtp status
+
+Switch1(config)# vtp domain Cinso(სახელი) - დომეინის გაწრა ვიტიპიზე
+Switch1(config)# vtp password Cisco123 -პაროლის გაწერა
+Switch1# show vtp password 
+
+
+Switch2(config)# vtp mode client -სვიჩის ვტპ კლიენტად გადაკეთება
+Switch2(config)# vtp domain Cinso(სახელი) - დომეინის გაწრა ვიტიპიზე
+Switch2(config)# vtp password Cisco123 -პაროლის გაწერა
+Switch2# show vtp password 
+
+ამ ყველაფრის შემდეგ ვაკონფიგურიებთ ვილანებს VTP სერვერზე
+S1(config)# vlan 10
+S1(config-vlan)# name LAN10
+S1(config-vlan)# exit
+S1(config)# vlan 20
+S1(config-vlan)# name LAN20
+S1(config-vlan)# exit
+S1(config)# vlan 99
+S1(config-vlan)# name Management
+S1(config-vlan)# exit
+Switch1# show vlan brief
+Switch1# show vlan status

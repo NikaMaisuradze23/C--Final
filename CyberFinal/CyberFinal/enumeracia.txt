@@ -1,0 +1,12 @@
+1. msfconsole 
+2. search ssh (პროტოკოლი რაც იქნება,ssh მაგივრად ) enum 
+3. use 4(ნომერი სადაც ენუმერაციაა, ამ შემთხვევაში 4)
+4. options
+5. set rhosts(სახელი) 102.10.10.13 (აიპის დაყენება)
+6. set user_file /usr/share/wordlists/metasploit (ვორდ ლისტის დაყენება)
+
+
+1. search snm enum
+2. use 9
+3. options
+4. set version 2c

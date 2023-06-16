@@ -1,0 +1,68 @@
+სექურითის ჩართვა როუტერზე პირველ რიგში ისე არ იმუშავებს 
+
+Router#configure terminal 
+Router(config)#license boot module c1900 technology-package securityk9
+Router(config)#exit
+Router#copy running-config
+Router#reload 
+Router#show version 
+
+
+1.აქსესლისტის შექმნა
+Router(config)#access-list 101 permit ip 192.168.1.0 0.0.0.255 192.168.3.0 0.0.0.255 - რომლიო როუტერიც იღებს იმის მიმღები
+                                            |
+                                      რომელ როუტერზეც ვაკოფიგურებთ იმის გამავლი ინტერფეისი
+
+2. ISAKMP  კონფიგურცია
+Router#configure terminal 
+Router(config)#crypto isakmp policy 1 
+Router(config-isakmp)#hash sha
+Router(config-isakmp)#authentication pre-share 
+Router(config-isakmp)#group 5
+Router(config-isakmp)#lifetime 3600
+Router(config-isakmp)#encryption aes 256 
+Router(config-isakmp)#exit
+
+3. გასაღების დაყენება
+Router(config)#crypto isakmp key BTU123 address 10.2.2.1-როუტერის პორტის აიპი რომელმა როუტერმაც უნდა მიიღოს
+
+4. IPsec კონფიგურაცია
+Router(config)#crypto ipsec transform-set R1-R3 esp-aes 256 esp-sha-hmac
+               ან
+crypto ipsec transform-set R1-R2 esp-aes esp-sha-hmac
+
+5.კრიპტო მაპის შექმნა
+Router(config)#crypto map R1-R3-MAP 10 ipsec-isakmp
+Router(config-crypto-map)#match address 101-აქსესლისტის ნომერი
+Router(config-crypto-map)#set transform-set R1-R3
+Router(config-crypto-map)#set peer 10.2.2.1-მიმღები სხა როუტერის პორტის აიპი რომლსაც უნდა დავუკავშრდეთ
+Router(config-crypto-map)#set pfs group5
+Router(config-crypto-map)#set security-association lifetime seconds 900
+Router(config-crypto-map)#exit
+Router(config)#interface gig0/0
+Router(config-if)#crypto map R1-R3-MAP -კრიპტო მაპის სახელი
+
+
+
+show crypto isakmp default policy 
+show crypto isakmp policy
+show crypto isakmp sa 
+show crypto map
+show crypto ipsec sa
+
+
+
+GRE TUNNEL
+RA(config)# interface tunnel 0
+RA(config-if)# ip address 10.10.10.1 255.255.255.252 - ტუნელის ერთი როუტერის აიპი
+RA(config-if)# tunnel source s0/0/0 - გასასვლელი პორტი
+RA(config-if)# tunnel destination 209.165.122.2 - მიმღები როუტერის პორტის აიპი
+RA(config-if)# tunnel mode gre ip
+RA(config-if)# no shutdown
+
+RB(config-if)#router ospf 1 - ოესპიეფ როუტინგი ჯიარში
+RB(config-router)#network 192.168.2.0 0.0.0.255 area 0 - ვუთითებთ ტუნელის ქსელის მისამართს
+
+
+
+

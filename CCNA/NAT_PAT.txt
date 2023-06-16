@@ -1,0 +1,40 @@
+NAT
+R1(config)#ip nat inside source static 172.16.16.1 64.100.50.1 - რა აიპად გადაკეთდება
+                                         |
+                                   რა აიპიმ უნდა გადაკეთდეს
+
+R1(config)#interface gig0/0 -შემომავალი ინტერფეისი სადაც სვიჩი და კომპიუტერები ჰყავს
+R1(config-if)#ip nat inside
+
+R1(config)#interface se0/0/0 - გამავალი ინტერფეისი სადაც უკავშირდება გარე ქესლებს და სხვა როუტრებს
+R1(config-if)#ip nat outside 
+
+Configure Dynamic NAT with Overload
+R1(config)# access-list 1 permit 172.16.0.0 0.0.255.255 - იმ ქსელის მისამართი რომელიც როუტერს აქვს მიერთებული
+R1(config)# ip nat pool ANY_POOL_NAME 209.165.200.233 209.165.200.234 netmask 255.255.255.252
+R1(config)# ip nat inside source list 1 pool ANY_POOL_NAME overload
+R1(config)# interface s0/1/0
+R1(config-if)# ip nat outside
+R1(config-if)# interface g0/0/0
+R1(config-if)# ip nat inside
+R1(config-if)# interface g0/0/1
+R1(config-if)# ip nat inside
+
+R1(config)#ip access-list standard (NAME)
+R1(config-std-nacl)#permit 192.168.10.0 0.0.0.255 - ქსელები რაცაა მიბმული
+
+
+
+
+ Configure PAT using an Interface
+R1(config)# access-list 1 permit 172.16.0.0 0.0.255.255
+R2(config)# ip nat inside source list 2 interface s0/1/1 overload
+                                                    |
+                                               შემავალი ინტერფეისი სადან სხვა როუტერები ჰყავს
+R1(config)# interface s0/1/0
+R1(config-if)# ip nat outside
+R1(config-if)# interface g0/0/0
+R1(config-if)# ip nat inside
+R1(config-if)# interface g0/0/1
+R1(config-if)# ip nat inside
+

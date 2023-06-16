@@ -1,0 +1,146 @@
+Inter-VLAN Routing OperationV
+ვილანებს არ შეუძლიათ დაუკავშირდნენ სხვა ვილანებს და გაუგაზვნოს რაიმე ინფორმაცია, მაგალითად Vlan10 არ შეუძლია გაუგზავნოს Vlan20-ს, რადგან სვიჩს არ აქვს რუტინგის ფუნქიცა ამიტომ გვჭირდება ქსელში გვყონდეს როუტერი ან
+მესამე დონის სვიჩი. 
+
+What is Inter-VLAN Routing?
+
+Legacy Inter-VLAN Routing - შემოგავქვს როუტერი და ტოურესტა და სვიჩს შორის გაგვყავს იმდენი კაბელი რამდენი ვილანნიც გვაქვს ქსელში, შემდეგ ამ ინტერფესიებს უწერთ იმ გეითვეის რომელიც ვილანს ეკუთვის,
+ეს შედარებით მოძველებულია.
+
+Router-on-a-Stick Inter-VLAN Routing -  შემოგავქვს როუტერი და სვიჩთან ვაკავშირებთ ერთი კაბელით, შემდეგ ამ ინტერფეისს ვყოფთ ქვეინტერფეისებად მაგალითად:
+interface fa0/0.1 - ეს 0.1 გამოხატავს ქვეინტერფეისს და ამ ქვეინტერფეისებზე ვწერთ ვილანების გეითვეის.
+
+Inter-VLAN Routing on a Layer 3 Switch - შემოგაქვს მესამე დონის სვიჩი  და ჩვეულბერივად ვაკავშირებთ მეორე დონის სვიჩებთან, ვრთავთ როუტინგის ფუნქციას და მუშაობს როგორც როუტერი ისე.
+
+Router-on-a-Stick Inter-VLAN Routing
+
+S1 VLAN and Trunking Configuration - სვიჩდან როუტერის ინტეფესი გადაგვყავს თრანქ მდგომარეობაში
+S2 VLAN and Trunking Configuration
+S2(config)# vlan 10
+S2(config-vlan)# name LAN10
+S2(config-vlan)# exit
+S2(config)# vlan 20
+S2(config-vlan)# name LAN20
+S2(config-vlan)# exit
+S2(config)# vlan 99
+S2(config-vlan)# name Management
+S2(config-vlan)# exit
+S2(config)#
+S2(config)# interface vlan 99
+S2(config-if)# ip add 192.168.99.3 255.255.255.0
+S2(config-if)# no shut
+S2(config-if)# exit
+S2(config)# ip default-gateway 192.168.99.1
+S2(config)# interface fa0/18
+S2(config-if)# switchport mode access
+S2(config-if)# switchport access vlan 20
+S2(config-if)# no shut
+S2(config-if)# exit
+S2(config)# interface fa0/1
+S2(config-if)# switchport mode trunk
+S2(config-if)# no shut
+S2(config-if)# exit
+S2(config-if)# end
+
+R1 Subinterface Configuration - იმისთვის რომ როუტერმა აღიქვას სვიჩს გამოგზანილი ფრეიმი უნდ გავაკეთოთ ენკაფსულაცია.
+
+R1(config)# interface G0/0/1.10 - ვაკეთებთ ქვეინტერფეისს
+R1(config-subif)# description Default Gateway for VLAN 10 - ეს უბრალოდ აღწერაა არაა სავალდებულო
+R1(config-subif)# encapsulation dot1Q 10 - ვაკეთებთ ენკაფსულაციას ანუ encapsulation dot1Q ( და აქ ვუწერთ ვილანს მაგალითად 10  და მორჩა წინ სიტყვა ვილანი აღარ უნდა) 
+R1(config-subif)# ip add 192.168.10.1 255.255.255.0 - შემდეგ ვწერთ ჩევულბერივ გეითვეის აიპის და მასკას
+
+Router-on-a-Stick Inter-VLAN Routing Verification
+show ip route
+show ip interface brief
+show interfaces
+show interfaces trunk
+
+
+Inter-VLAN Routing using Layer 3 Switches
+
+Layer 3 Switch Configuration
+ლიერ 3 სვიჩზეც როგორ ჩვეულბერივ სვიჩზე ისე იქმნება ვილანების
+
+D1(config)# interface vlan 10 - მაგრამ ჩვენ შევგიძლია შევიდეთ ვილანზე და გავუწეროთ აიპი
+D1(config-if)# description Default Gateway SVI for 192.168.10.0/24
+D1(config-if)# ip add 192.168.10.1 255.255.255.0
+D1(config-if)# no shut
+D1(config-if)# exit
+D1(config)#
+D1(config)# int vlan 20
+D1(config-if)# description Default Gateway SVI for 192.168.20.0/24
+D1(config-if)# ip add 192.168.20.1 255.255.255.0
+D1(config-if)# no shut
+D1(config-if)# exit
+D1(config)#
+
+D1(config)# interface GigabitEthernet1/0/6 - ვილანების გაწევრინაება
+D1(config-if)# description Access port to PC1
+D1(config-if)# switchport mode access
+D1(config-if)# switchport access vlan 10
+D1(config-if)# exit
+D1(config)#
+D1(config)# interface GigabitEthernet1/0/18
+D1(config-if)# description Access port to PC2
+D1(config-if)# switchport mode access
+D1(config-if)# switchport access vlan 20
+D1(config-if)# exit
+
+მარგამ ყველაზე მტავარი არის ბრძანება რომლითაც ირთვება როუტინგი სვიჩზე:
+D1(config)# ip routing
+D1(config)#
+
+
+
+Routing Configuration on a Layer 3 Switch
+
+D1(config)# interface GigabitEthernet1/0/1 - როუტერისთვის პორტის გაკოფიგურება
+D1(config-if)# description routed Port Link to R1
+D1(config-if)# no switchport
+D1(config-if)# ip address 10.10.10.2 255.255.255.0
+D1(config-if)# no shut
+D1(config-if)# exit
+D1(config)#
+D1(config)# ip routing
+D1(config)#
+
+
+D1(config)# router ospf 10
+D1(config-router)# network 192.168.10.0 0.0.0.255 area 0 - ვუთითებთ ვილანის ქსელის აიპის 
+D1(config-router)# network 192.168.20.0 0.0.0.255 area 0
+D1(config-router)# network 10.10.10.0 0.0.0.3 area 0 - ვუთითებთ როუტერსა და სვიჩს შორის ქსელის აიპის
+
+D1# show ip route - შემოწმება
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

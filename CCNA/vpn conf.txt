@@ -1,0 +1,35 @@
+configure terminal 
+license boot module c1900 technology-package securityk9
+
+
+
+1.აქსესლისტის შექმნა
+access-list 101 permit ip 192.168.1.0 0.0.0.255 192.168.3.0 0.0.0.255
+
+2. ISAKMP  კონფიგურცია
+
+configure terminal 
+crypto isakmp policy 1
+hash sha
+authentication pre-share 
+group 5
+lifetime 3600
+encryption aes 256 
+exit
+
+3. გასაღების დაყენება
+crypto isakmp key BTU123 address 10.2.2.1
+
+4. IPsec კონფიგურაცია
+crypto ipsec transform-set R1-R2 esp-aes esp-sha-hmac
+
+5.კრიპტო მაპის შექმნა
+crypto map R1-R3-MAP 10 ipsec-isakmp
+match address 101
+set transform-set R1-R3
+set peer 10.2.2.1
+set pfs group5
+set security-association lifetime seconds 900
+exit
+interface gig0/0
+crypto map R1-R3-MAP

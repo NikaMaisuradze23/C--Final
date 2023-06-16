@@ -1,0 +1,65 @@
+IPv4 Static Route Command
+Router(config)# ip route (network-address, subnet-mask და პორტი საითაც გაუშვას ან მეზობლის აიპი მისამართი)
+
+IPv6 Static Route Command
+Router(config)# ipv6 route (ipv6-prefix/prefix-length)
+
+IPv4 Next-Hop Static Route -  მუწერთ გეითვეის აიპის
+R1(config)# ip route 172.16.1.0 255.255.255.0 172.16.2.2
+
+შემოწმება: 
+R1# show ip route
+
+IPv6 Next-Hop Static Route
+
+R1(config)# ipv6 unicast-routing -  აუცილებლად ჩავღთოთ ვ6 როუტინგი
+R1(config)# ipv6 route 2001:db8:acad:1::/64 2001:db8:acad:2::2
+                         |                           |
+                 ქსელი რასაც ვასწავლით             მეზობლის აიპი 
+
+IPv6 Directly Connected Static Route
+
+
+R1(config)# ipv6 route 2001:db8:acad:1::/64 s0/1/0 - ამ შემთხვევასში მეზობლის აიპის მაგივრად ვუწერთ პორტს საითაც უნდა გაუშვას ფრეიმი
+
+
+
+IPv4 Fully Specified Static Route - ეს როუტინგის მეთოდი ყველაზე გამოსაყენებელია რადგან ამ შემთხვევაში მზობლის აიპის და პორტსაც ვუწერთ 
+
+R1(config)# ip route 172.16.1.0 255.255.255.0 GigabitEthernet0/0/1 172.16.2.2
+                                                |                       |
+                                      პორტი(საიდანაც ვწერთ)              აიპი(მეზობელი როუტერის)
+ 
+
+შემოწმება:
+R1# show ip route static
+R1# show ip route 192.168.2.1
+R1# show running-config
+
+
+Default Static Route - ქვემოთ მოცემული ბბრძანებბებით, ჩვენ როუტერს ვასწავლით, თუ რაიმე ისეთი შემოვიდა რისი აიპიც არ იცი გაუშვი ამ მეზობლის აიპზე ან ამ ინტერფესიზე. 
+ესეიგი კონკრეტულ ქსელს არ ვასწავლი და ზოგადად თუ რამე უცხო მიიღო ვაძლევ მითითებას.
+
+ვ4
+Router(config)# ip route 0.0.0.0 0.0.0.0 {ip-address | exit-intf} - აუციოლებლად ვწერთ ამ ნულებს მასკის და აიპის მაგივრად  და შემდეგ ჩვეულბერივად ინტერფეისი ან მეზობლის აიპი ან ორივე
+
+ვ6
+Router(config)# ipv6 route ::/0 {ipv6-address | exit-intf}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

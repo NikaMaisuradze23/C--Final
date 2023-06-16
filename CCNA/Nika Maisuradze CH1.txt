@@ -1,0 +1,192 @@
+Nika Maisuradze G11
+
+Packet Tracer - Logical and Physical Mode - ლოკალური მოდი არის როდესაც ნახაზის სახით ვხედავთ და ვაკონტროლებთ ჩვენ ქსელს, ხოლო ფიზიკური არის როდესაც რეალურ ცხოვრებას შეესაბამება ჩვენი ქსელი.
+
+Switch Boot Sequence- პირველრიგში იტვირთება Post, რომელიც ტესტირებას უტარებს სისტემას და მდებარეობს Rom მეხსიერებაში, შემდეგ ეშვება Boot Loader რომელიც ტვირთავს სისტემას და მოთავსებულია Rom მეხსირებაში, როდესაც სისტემური ჩამტვრითი
+ინიციალიზაცის გაუკეთებს ყველაფერს, ტვირთავს ოპერაციულ ისიტემა -IOS და ყველანაირი კონტორლის უფლება ენიჭება ოპერაციულ სისტემას.
+ 
+The boot system Command -  
+ბრძანება - show boot
+
+        შემნახველი მოწყობილობა
+                 |
+boot system | flash:| /c2960-lanbasek9-mz.150-2.SE/ | c2960-lanbasek9-mz.150-2.SE.bin
+    |                           |                                    |
+გვიჩვენებს ბრძანებას         ფაილში განთავსების გზა               IOS სისტემის ფაილის სახელი
+
+
+Switch LED Indicators
+-SYST - აჩვენებს იღებს თუ არა კვებას და ფუნქციონირებს ნორმალურად, გათიშვა ნიშნავს რომ სისტემა არაა ჩართული, მწვანე ესეიგი კარგად არის ყველაფერი, ნარიჯნიფერი იღებს კვებას მაგრამ ყველაფერი კარგად არაა.
+
+-RPS (Redundant Power System)  - თუ ნათურა გამორთულია ესიგი არ არის ჩართული ან არასწორედაა შეერთებლი, მწვანე ესეიგი ყველაფერი კარგადაა, ციმციმი დაკავშირებულია მაგჰრამ მიუწვდომელია,რდადგან კვებას სხვას აწვდის
+ნარინჯის ფერი ნიშნავს რომ ლოდინის რეჟიმშია ან დაზიანებულია, თუ ნარინჯისფრად ციმციმებს ესიგი კვების ბლოკია დაზიანებული და RPS აწვდის კვებას.
+
+-STAT - მიუთითებს პორტის მდგომარეობის რეჟიმს, მწავენ არის ნაგულისხმევი რეჟიმი, როცა არ ანთია ესეიგი კავშირი არ არის ან პორტი გათიშულია, თუ მწვანეა ესეიგი ყველაფერი კარგადაა, თუ ფერები იცველბა მწვანე-ყვითელი ესიეგი
+ესეიგი დაზიანებულია კავშირი, თუ ნათურა ყვითელია ესეიგი პორტი დაბლოკილია, რაც ნიშნავს რომ დომეინში ციკლი არ არსებობს და მონაცემთა გადაგზავნა არ ხდება, თუ ყვითლად ციმციმებს პორტი დაბლოკილია რათა თავიდან 
+აიცილოს ცკილის შესაძლებლობა გადასაგზვან დომეინში.
+
+-DUPLEX - მიუთითებს პორტის დუპლექსის რეჟიმს, როცა ნათურა არის მწვანე, პორტის ნათურები რომლებიც გამორთულია იმყოფებიან Half-Duplex რეჟიმში, თუ პორტის ნათურები მწვანე ესიგი Full-Duplex რეჟიმშია.
+
+-SPEED - მიუთითებს პორტის სიჩქარის რეჟიმს, გათიშული ნათურა 10 მგ/წმ, მწვანე 100 მბ/წმ, მწვანედ ციმციმი 1000 მბ/წმ
+
+-PoE (Power over Ethernet)  - ეს რეჟიმი ყველა სვიჩს არ აქვს, თუ ნათურა გამორთულია ესეიგი რეჟიმი არ არის არჩეული და არცერთმა პორტმა არ თქვა უარი ძაბვაზე ან  შეიძლება რომელიმე პორტი გადავიდა შეცდომით მდგომარეობაში,
+ყვითლად ციმციმებს ესიგი რეჟიმი არაა არჩეული და და ერთზე მეტმა პორტმა თქვა უარი ძაბვაზე, თუ მწვანეა ესეიგი ჩართულია, თუ ფერებს იცვლიან ყვითელი- მწვანე ესიგი მოთხოვნილ ძაბვამ გადააჭარბა სვიჩის ძაბვის მოცულობას,
+თუ ყვითლად ციმციმებს ესეიგი გამორთულია შეცდომის გამო. თუ ყვითელია ესეიგი გათიშულია პორტზე.
+
+
+Recovering from a System Crash - თუ სისტემის ფაილი დაზიანდა ვამოწმებთ ბრძანეებით "dir flash:" და ახალის დაყენება თუ გვინდა ვწერთ შემდეგ ბრძანებას BOOT=flash:c2960-lanbasek9-mz.150-2.SE8.bin
+The boot loader Function
+V
+Switch Management Access - იმისთვის რომ სვიჩზე დისტანციურად წვდომა გვქონდეს და არ მოგივიოს გზაში დროის დაკარგვა, ამისთვის გვჭირდება გავაკეთოთ ვირტუალური ქსელი რომელსაც ეწოდება VLAN.
+
+Switch SVI Configuration - 
+configure terminal
+interface vlan 99
+ip address (IP) (Mask)
+ipv6 address (IPV6)
+no shutdown
+დავბრუნდეთ პირვილეგირებულ რეჟიმში და შევინახოთ ჩვენი კნფიგურაცია
+copy running-config startup-config
+
+გეითვეის კოფიგურირება
+configure terminal
+ip default-gateway (აიპი)
+დავბრუნდეთ პირვილეგირებულ რეჟიმში და შევინახოთ
+copy running-config startup-config
+
+შემოწმება 
+show ip interface brief ( განკუთვნილია IPV4)
+show ipv6 interface brief( განკუთვნილია IPV6)
+
+Switch Ports Configuration
+- duplex 
+configure terminal
+interface FastEthernet 0/1
+duplex full
+
+- speed
+configure terminal
+interface FastEthernet 0/1
+speed 100
+
+- Auto-MDIX
+თუ ჩემს ქსელში არის ტ568ა და ტ568ბ კაბელების წყობა პრობლემა რომ არ შემექმნას გავუწერ შემდეგ ბრძანებას: mdix auto
+
+
+-Switch Verification Commands
+show interfaces
+show startup-config
+show running-config
+show flash
+show version
+show history
+show ip interface
+show ipv6 interface
+show mac address-table
+
+Network Access Layer Issues - "show interfaces (ინტერფეისი)" ამ ბრძანებით შეგვიძლია გავიგოთ ინტერფეისის შესახებ ყველაფერი რაც გვაინტერესებს
+
+Interface Input and Output Errors
+- Input Errors - აჩვენებს ერორების მთლიან რაოდენობას
+- Runts - პაკეტები რომლებიც განადგუირებულია რადგან საშუალოზე მცირე ზომისაა
+- Giants - პაკეტები რომლებიც განადგურებულია რომელიც საშუალოზე დიდი ზომისაა
+- CRC - როდესაც გამომთვლელის ჯამი არ არის იგივე რაც მიღებულის
+- Output Errors - ყველა შეცდომის ჯამი 
+- Collisions 
+- Late Collisions
+
+Troubleshooting Process of Network Access Layer Issues
+
+Secure Remote Access
+- Telnet Operation - ვირტუალური წვდომის უსაფრთოების ძველი პროტოკოლი.
+- SSH Operation - ვირტუალური წვდომის უსაფრთხოების ახალი პროტოკოლი.
+
+Configure SSH
+Verify SSH
+show ip ssh
+ip domain-name (სახელი)
+crypto key generate rsa
+ვირჩევთ რამედნი ბიტი გვინად
+username (სახელი) secret(პაროლი)
+line vty 0 15
+transport input ssh
+login local
+ip ssh version 2 - თუ მხარდაჭერა გვაქვს 1 და 2 ვერსიაზე
+
+Basic Router Configuration - Commands and meanings
+სახელის და დაფარული პაროლის გაწერა:
+configure terminal
+hostname (სახელი)
+enable secret (პაროლი)
+
+კონსოლზე პაროლის გაწერა:
+line console 0
+password (პაროლი)
+login
+exit
+
+
+ვირტულაურ ქსელზე პაროლის გაწერა:
+line vty 0 4
+password (პაროლი)
+login
+exit
+
+პაროლის დაშიფვრა:
+configure terminal
+service password-encryption
+
+ბანერის გაწერა:
+configure terminal
+banner motd (ტექსტი)
+
+კონფიგურაციის შენახვა:
+exit
+copy running-config startup-config
+
+Dual Stack Configuration
+Router(config-if)#interface s0/0/0
+Router(config-if)#ip address 209.165.200.226 255.255.255.252
+Router(config-if)#ipv6 address 2001:db8:acad:3::226/64
+Router(config-if)#description Link to R1
+Router(config-if)#no shutdown
+
+
+IPv4 Loopback Interfaces configuration
+R1(config)# interface loopback 0
+R1(config-if)# ip address 10.0.0.1 255.255.255.0
+R1(config-if)# exit
+
+
+Verify Directly Connected Networks
+- Verify Interface Status - 
+R1# show ip interface brief
+
+
+- Verify IPv6 Link Local and Multicast Addresses
+R1# show ipv6 interface (ინტერფეისი)
+
+- Verify Interface Configuration
+show running-config interface (ინტერფეისი)
+
+- Verify Routes
+R1# show ip route
+R1# show ipv6 route
+Filter Show Command Output
+
+- Section
+R1# show running-config | section line vty
+
+- Include
+R1# show ip interface brief
+R1# show ip interface brief | include up
+
+- Exclude
+R1# show ip interface brief
+R1# show ip interface brief | exclude unassigned
+
+- begin
+R1# show ip route | begin Gateway
+
+Command History Feature
+R1# show history

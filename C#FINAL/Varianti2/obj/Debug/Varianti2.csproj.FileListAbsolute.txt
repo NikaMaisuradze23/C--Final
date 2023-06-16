@@ -1,0 +1,11 @@
+C:\Users\tudul\source\repos\Varianti2\bin\Debug\Varianti2.exe.config
+C:\Users\tudul\source\repos\Varianti2\bin\Debug\Varianti2.exe
+C:\Users\tudul\source\repos\Varianti2\bin\Debug\Varianti2.pdb
+C:\Users\tudul\source\repos\Varianti2\obj\Debug\Varianti2.csproj.AssemblyReference.cache
+C:\Users\tudul\source\repos\Varianti2\obj\Debug\Varianti2.csproj.SuggestedBindingRedirects.cache
+C:\Users\tudul\source\repos\Varianti2\obj\Debug\Varianti2.Form1.resources
+C:\Users\tudul\source\repos\Varianti2\obj\Debug\Varianti2.Properties.Resources.resources
+C:\Users\tudul\source\repos\Varianti2\obj\Debug\Varianti2.csproj.GenerateResource.cache
+C:\Users\tudul\source\repos\Varianti2\obj\Debug\Varianti2.csproj.CoreCompileInputs.cache
+C:\Users\tudul\source\repos\Varianti2\obj\Debug\Varianti2.exe
+C:\Users\tudul\source\repos\Varianti2\obj\Debug\Varianti2.pdb

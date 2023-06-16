@@ -1,0 +1,86 @@
+
+VTP
+Switch1# conf t
+Switch1(config)# vtp mode server -სვიჩის ვტპ სერვერად გადაკეთება
+Switch1# show vtp status
+
+Switch1(config)# vtp domain Cinso(სახელი) - დომეინის გაწრა ვიტიპიზე
+Switch1(config)# vtp password Cisco123 -პაროლის გაწერა
+Switch1# show vtp password 
+
+
+Switch2(config)# vtp mode client -სვიჩის ვტპ კლიენტად გადაკეთება
+Switch2(config)# vtp domain Cinso(სახელი) - დომეინის გაწრა ვიტიპიზე
+Switch2(config)# vtp password Cisco123 -პაროლის გაწერა
+Switch2# show vtp password
+
+
+STP
+switch(config)# spanning-tree mode st
+S3(config)#spanning-tree vlan 1,5,6,7 root primary 
+spanning-tree bodyguard enable
+spanning-tree Portfast
+
+
+EtherChannel
+Configure PAgP
+S1(config)# interface range f0/21 – 22
+S1(config-if-range)# shutdown
+S1(config-if-range)# channel-group 1 mode desirable
+S1(config-if-range)# no shutdown
+S1(config-if-range)# exit
+S1(config)# interface port-channel 1
+S1(config-if)# switchport mode trunk
+S1# show etherchannel summary
+
+Configure LACP
+S1(config)# interface range g0/1 - 2
+S1(config-if-range)# shutdown
+S1(config-if-range)# channel-group 2 mode active
+S1(config-if-range)# no shutdown
+S1(config-if-range)# exit
+S1(config)# interface port-channel 2
+S1(config-if)# switchport mode trunk
+S1# show etherchannel summary
+
+Configure a Redundant EtherChannel Link
+S2(config)# interface range f0/23 - 24
+S2(config-if-range)# shutdown
+S2(config-if-range)# channel-group 3 mode passive
+S2(config-if-range)# no shutdown
+S2(config-if-range)# interface port-channel 3
+S2(config-if)# switchport mode trunk
+
+HSRP
+R1(config)# standby 1 version 2
+R1(config)# standby 1 ip 172.16.0.1
+R1(config)# standby 1 priority 150
+R1(config)# standby 1 preempt
+R1(config)# standby 1 timer 15 10
+R1(config)# no shutdown
+
+
+
+configure glbp
+Switch2(config)# interface vlan 50
+Switch2(config)# ip add 192.168.1.10 255.255.255.0
+Switch2(config)# glbp 1 priority 100
+Switch2(config)# glbp 1 preempt
+Switch2(config)# glbp 1 ip 192.168.1.1
+
+
+intervlan routing
+R1(config)# interface G0/0/1.10 - ვაკეთებთ ქვეინტერფეისს
+R1(config-subif)# description Default Gateway for VLAN 10 - ეს უბრალოდ აღწერაა არაა სავალდებულო
+R1(config-subif)# encapsulation dot1Q 10 - ვაკეთებთ ენკაფსულაციას ანუ encapsulation dot1Q ( და აქ ვუწერთ ვილანს მაგალითად 10  და მორჩა წინ სიტყვა ვილანი აღარ უნდა) 
+R1(config-subif)# ip add 192.168.10.1 255.255.255.0 - შემდეგ ვწერთ ჩევულბერივ გეითვეის აიპის და მასკას
+
+OSPF
+D1(config)# router ospf 10
+D1(config-router)# network 192.168.10.0 0.0.0.255 area 0 - ვუთითებთ ვილანის ქსელის აიპის 
+D1(config-router)# network 192.168.20.0 0.0.0.255 area 0
+D1(config-router)# network 10.10.10.0 0.0.0.3 area 0 - ვუთითებთ როუტერსა და სვიჩს შორის ქსელის აიპის
+
+EIGRP
+R1(config)#router eigrp 10
+R1(config-router)#network 192.168.65 0.0.0.0.31

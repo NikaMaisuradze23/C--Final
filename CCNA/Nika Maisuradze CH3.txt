@@ -1,0 +1,132 @@
+Nika Maisuradze
+
+Overview of VLANs
+
+VLAN Definitions
+უსაფრთხოება - რადგან ვილანში მყოფი ჯგუფები რომლებსაც აქვთ მნიშვნელოვანი ინფორმაცია არიან განცალკევებული სხვა ქსელებისგან
+ხარჯების შემცირება
+
+Benefits of a VLAN Design
+Types of VLANs
+Default VLAN - მთავარი ვილანი, სადაც სვიჩის ჩართვიდან მოყოლებული ყველა დომეინი გაწევრიანებულია.
+ვილანების სანახავად - show vlan brief
+Data VLAN - ორგანიზაცია გაუკეთონ ვილანს 
+Native VLAN - ვილანი სადაც ტრაფიქ მდგომარეობაში მყოფი პორტებია გაწევრიანებულინ მაგალითად სვიჩსა და სვიჩს შორის მყოფი პორტი
+Management VLAN - ვილანი რომელიც აკონტროლებს ტრაფიკებს, ტლენეტს აკოფიგურებს სვიჩს, მთავი ვილანი რა
+Voice VLAN - ვილანი რომელიც აკონტროლებს ხმოვან გადაცემას, აიპი ტელეფონებს
+
+
+
+VLAN Configuration
+
+VLAN Ranges on Catalyst Switches
+Switch# show vlan brief - ვილანების ნახვა
+
+VLAN Creation Commands - ვილანის შექმნა
+Switch# configure terminal
+Switch(config)# vlan (vlan-id - მაგალითად vlan10)
+Switch(config-vlan)# name (vlan-name სახელი, მენეჯმენტი დეითა)
+
+VLAN Port Assignment Commands
+Switch# configure terminal
+Switch(config)# interface (interface-id ინტერფეისი მაგალითად fa 0/0 თუ ბევრ ინტერფეისში გვინდა შესვლა ვწერთ interface range fa 0/1-10 და შევალთ 1 დან 10 ჩათვლით ყველა ინტერფეისში)
+Switch(config-if)# switchport mode access -  ექსეს მდომარეობაში გადაყვნა
+Switch(config-if)# switchport access vlan (vlan-id და ვუთითებთ იმ ვილანს რომლშიც გაწევრიანება გვინდა ინტერფეისების)
+
+
+VLAN Port Assignment Example
+S1# configure terminal
+S1(config)# interface fa0/6
+S1(config-if)# switchport mode access
+S1(config-if)# switchport access vlan 20
+S1(config-if)# end
+
+
+Data and Voice VLANs
+S3(config)# vlan 20
+S3(config-vlan)# name student
+S3(config-vlan)# vlan 150
+S3(config-vlan)# name VOICE
+S3(config-vlan)# exit
+S3(config)# interface fa0/18
+S3(config-if)# switchport mode access
+S3(config-if)# switchport access vlan 20
+S3(config-if)# mls qos trust cos
+S3(config-if)# switchport voice vlan 150
+S3(config-if)# end
+
+
+Verify VLAN Information
+show vlan brief - ვილანების ზოგადი ნახვა
+show vlan id (vlan-id) - კონკრეტული ვილანის ნახვა
+show vlan name (vlan-name) - კონკრეტული ვილანის ნახვა
+show vlan summary - რამდენი ვილანია ჯამში
+
+
+
+Change VLAN Port Membership
+თუ გვინდა როიმ რომელიმე ვილანიდან ამოვიღოთ რომელიმე ინტეფეისი შევიდვართ იმ ნიტერფეისზე და ვწერთ
+S1(config)# interface (ინტეფეისის აიდი)
+S1(config-if)# no switchport access vlan
+
+
+
+VLAN Trunks
+
+Trunk Configuration Commands
+Switch# configure terminal
+Switch(config)# interface (interface-id)
+Switch(config-if)# switchport mode trunk -  თრანქ მოდის ჩართვა
+Switch(config-if)# switchport trunk native vlan (vlan-id) - ნეითივ ვილანში გაწევრიანება 
+Switch(config-if)# switchport trunk allowed vlan (vlan-list) - ვილანები რომლის ინფომრაციამაც გვინდა რომ იმოძრავოს
+
+
+Trunk Configuration Example
+S1(config)# interface fastEthernet 0/1
+S1(config-if)# switchport mode trunk
+S1(config-if)# switchport trunk native vlan 99
+S1(config-if)# switchport trunk allowed vlan 10,20,30,99
+
+
+Verify Trunk Configuration
+S1# show interfaces (პორტი) switchport
+მაგალითად
+S1# show interfaces fa0/1 switchport
+
+
+
+
+Reset the Trunk to the Default State
+S1(config)# interface fa0/1
+S1(config-if)# no switchport trunk allowed vlan
+S1(config-if)# no switchport trunk native vlan  - თრანქის გამორთვა ინტერფეისტზე
+
+Dynamic Trunking Protocol
+S1(config-if)# switchport mode trunk
+S1(config-if)# switchport nonegotiate
+
+Introduction to DTP
+
+Results of a DTP Configuration
+
+Verify DTP Mode
+S1# show dtp interface fa0/1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

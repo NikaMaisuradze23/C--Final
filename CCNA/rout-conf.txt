@@ -1,0 +1,43 @@
+enable
+configure terminal
+hostname R1
+enable secret class 
+line console 0
+logging synchronous
+password cisco
+login
+exit 
+line vty 0 4 
+password cisco
+login
+transport input ssh telnet
+exit
+service password-encryption
+banner motd "  "
+
+
+ipv6 unicast-routing
+interface gigabitethernet 0/0/0
+description Link to LAN 1
+ip address 10.0.1.1 255.255.255.0 
+ipv6 address 2001:db8:acad:1::1/64 
+ipv6 address fe80::1:a link-local
+no shutdown
+exit
+
+interface gigabitethernet 0/0/1
+description Link to LAN 2
+ip address 10.0.2.1 255.255.255.0
+ipv6 address 2001:db8:acad:2::1/64
+ipv6 address fe80::1:b link-local
+no shutdown
+exit
+
+interface serial 0/1/1
+description Link to R2
+ip address 10.0.3.1 255.255.255.0
+ipv6 address 2001:db8:acad:3::1/64
+ipv6 address fe80::1:c link-local
+no shutdown
+exit
+copy running-config startup-config
