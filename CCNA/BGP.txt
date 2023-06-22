@@ -1,0 +1,12 @@
+LOOBCAK CONF
+R1#Conf t
+R1(config)#interface loopback 5
+R1(config-if)#ip address 192.168.5.1 255.255.255.0  - ლუპბექის კონფიგრაცია
+
+
+ISP1(config)#router bgp 58000 - ნომერი რომელიც იქნება მოცემული ლაბში
+ISP1(config-router)#neighbor 158.25.0.22 remote-as  60000 - მეზობელი როუტერის პორტის აიპი და ბჯიპი ნომერი
+
+router bgp 58000
+neighbor 158.25.0.22 remote-as 60000
+exit
