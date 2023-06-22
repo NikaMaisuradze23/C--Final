@@ -1,0 +1,21 @@
+CHAP
+Router(config)#interface se0/3/1 - რომელ ინტერფეისზეც გვინდა გავწეროთ
+Router(config-if)#encapsulation ppp
+Router(config-if)#ppp authentication chap
+
+
+interface se0/3/1
+encapsulation ppp
+ppp authentication chap
+exit
+
+
+
+PAP
+Router(config-if)#ppp authentication pap
+
+
+interface se0/3/1
+encapsulation ppp
+ppp authentication pap
+exit
